@@ -1,0 +1,62 @@
+.heroSection {
+    background-image: url('/images/Hero@1x.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    padding-top: 260px;
+    padding-bottom: 260px;
+}
+
+.heroContainer {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 64px;
+}
+
+
+.heroContent {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    padding-left: 64px;
+}
+
+.heroText {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.heroTitle {
+    font-size: 48px;
+    font-weight: 600;
+    line-height: 67%;
+    color: var(--inputs);
+}
+
+.heroDesc {
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 133%;
+    color: var(--inputs);
+}
+
+.heroBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 200px;
+    width: 173px;
+    height: 56px;
+    font-weight: 500;
+    color: var(--white);
+    line-height: 150%;
+    letter-spacing: -0.01em;
+    background-color: var(--button);
+    transition: background-color 0.3s ease;
+    ;
+}
+
+.heroBtn:hover,
+.heroBtn:focus {
+    background-color: var(--button-hover);
+}

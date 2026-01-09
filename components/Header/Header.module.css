@@ -1,0 +1,36 @@
+.header {
+    max-width: 1440px;
+    width: 100%;
+    margin: 0 auto;
+    background-color: var(--inputs);
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    padding: 24px 64px;
+}
+
+.nav {
+    margin: 0 auto;
+}
+
+.navList {
+    display: flex;
+    gap: 32px;
+    font-weight: 500;
+}
+
+.navItem {
+    color: var(--main);
+    transition: color 0.3s ease;
+}
+
+.navItem:hover,
+.navItem:focus {
+    color: var(--button-hover);
+}
+
+.active {
+    color: var(--button-hover);
+}
