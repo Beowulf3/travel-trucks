@@ -19,7 +19,7 @@ export default function CamperCard({ camper }: CamperCardProps) {
     <article className={css.card}>
       <div className={css.imageWrapper}>
         <Image
-          src={camper.gallery[0]?.thumb || '/placeholder.jpg'}
+          src={camper.gallery[0]?.thumb}
           alt={camper.name}
           fill
           className={css.image}

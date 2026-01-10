@@ -1,6 +1,8 @@
 import CamperGrid from '@/components/CamperGrid/CamperGrid';
 import { getAllCampers } from '@/lib/api';
 import { Camper } from '@/types/camper';
+import Link from 'next/link';
+import css from './Catalog.module.css';
 
 type PageProps = {
   searchParams: Promise<{
@@ -19,19 +21,16 @@ export default async function CampersPage({ searchParams }: PageProps) {
   const response = await getAllCampers({ page, limit });
   let campers = response.items;
 
-  // Фільтр по локації
   if (location) {
     campers = campers.filter((c: Camper) =>
       c.location.toLowerCase().includes(location.toLowerCase()),
     );
   }
 
-  // Фільтр по типу кузова
   if (form) {
     campers = campers.filter((c: Camper) => c.form === form);
   }
 
-  // Фільтр по зручностям
   if (amenities) {
     const amenitiesList = amenities.split(',');
     campers = campers.filter((c: Camper) =>
@@ -41,11 +40,22 @@ export default async function CampersPage({ searchParams }: PageProps) {
 
   return (
     <div>
-      <h1>Campers ({campers.length})</h1>
       {campers.length === 0 ? (
         <p>No campers found with selected filters</p>
       ) : (
-        <CamperGrid campers={campers} />
+        <div>
+          <CamperGrid campers={campers} />)
+          {response.total > page * limit && (
+            <div className={css.loadMore}>
+              <Link
+                href={`/catalog?page=${page + 1}`}
+                className={css.loadMoreButton}
+              >
+                Load more
+              </Link>
+            </div>
+          )}
+        </div>
       )}
     </div>
   );
