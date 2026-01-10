@@ -1,21 +1,35 @@
 import { Camper } from '@/types/camper';
 import { camperEquipment } from '@/utils/camperCardFeatured';
 import { Icon } from '../Icon/Icon';
+import css from './CamperFeatures.module.css';
 
-export const CamperFeatures = ({ camper }: { camper: Camper }) => (
-  <ul className="features">
-    {camperEquipment.map(({ key, label, icon, type }) => {
-      const value = camper[key];
+interface CamperFeaturesProps {
+  camper: Camper;
+}
+
+export const CamperFeatures = ({ camper }: CamperFeaturesProps) => {
+  const features = camperEquipment
+    .map(({ key, label, icon, type }) => {
+      const value = camper[key as keyof Camper];
 
       if (type === 'boolean' && !value) return null;
       if (type === 'value' && !value) return null;
 
-      return (
-        <li key={key} className="feature">
-          <Icon name={icon} />
-          <span>${label}</span>
-        </li>
-      );
-    })}
-  </ul>
-);
+      return { key, label, icon, value };
+    })
+    .filter(Boolean);
+
+  return (
+    <ul className={css.features}>
+      {features.map(
+        (feature) =>
+          feature && (
+            <li key={feature.key} className={css.feature}>
+              <Icon name={feature.icon} />
+              <span>{feature.label}</span>
+            </li>
+          ),
+      )}
+    </ul>
+  );
+};

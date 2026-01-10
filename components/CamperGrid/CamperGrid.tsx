@@ -1,31 +1,20 @@
 'use client';
 
-import { Camper } from '@/types/camper';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
 import css from './CamperGrid.module.css';
 import Image from 'next/image';
 import { CamperFeatures } from '../CamperFeatures/CamperFeatures';
-import { getAllCampers } from '@/lib/api';
 import Link from 'next/link';
+import { Camper } from '@/types/camper';
 
-const CamperGrid = () => {
-  const queryClient = useQueryClient();
-  const page = 1;
-  const limit = 4;
-  const { isLoading, error, data } = useQuery({
-    queryKey: ['campers'],
-    queryFn: () => getAllCampers({ page, limit }),
-  });
+interface CamperGridProps {
+  campers: Camper[];
+}
 
-  if (isLoading) return 'Завантаження...';
-  if (error) return `Щось пішло не так: ${error.message}`;
-
-  const campers = data;
-
+const CamperGrid = ({ campers }: CamperGridProps) => {
   return (
     <div>
       <ul className={css.camperList}>
-        {campers?.items.map((camper) => (
+        {campers.map((camper) => (
           <li className={css.camperCard} key={camper.id}>
             <Image
               src={camper.gallery[0].thumb}

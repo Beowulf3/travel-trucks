@@ -1,11 +1,17 @@
-import css from './Icon.module.css';
-
 interface IconProps {
   name: string;
+  width?: number;
+  height?: number;
+  className?: string;
 }
 
-export const Icon = ({ name }: IconProps) => (
-  <svg width={32} height={32}>
+export const Icon = ({
+  name,
+  width = 20,
+  height = 20,
+  className,
+}: IconProps) => (
+  <svg width={width} height={height} className={className}>
     <use href={`/sprite/sprite.svg#${name}`} />
   </svg>
 );
