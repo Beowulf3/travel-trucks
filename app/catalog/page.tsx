@@ -7,7 +7,7 @@ import FilterBar from '@/components/FilterBar/FilterBar';
 import CamperGrid from '@/components/CamperGrid/CamperGrid';
 import { Camper } from '@/types/camper';
 import css from './Catalog.module.css';
-import { useCampersStore } from '@/lib/stores/camperStore';
+import { initialFilters, useCampersStore } from '@/lib/stores/camperStore';
 
 export const dynamic = 'force-dynamic';
 
@@ -15,11 +15,16 @@ export default function CatalogPage() {
   const searchParams = useSearchParams();
   const {
     campers,
+    page,
     filteredCampers,
     isLoading,
     error,
     filters,
+    setFilters,
     setCampers,
+    setPage,
+    setHasMore,
+    appendCampers,
     setFilteredCampers,
     setLoading,
     setError,
@@ -42,9 +47,33 @@ export default function CatalogPage() {
       setLoading(true);
       setError(null);
 
+      const activeFilters =
+        filters.location ||
+        filters.form ||
+        filters.engine ||
+        filters.transmission ||
+        filters.amenities.length > 0
+          ? filters
+          : {
+              location,
+              form,
+              amenities,
+              engine,
+              transmission,
+            };
+
+      if (filters === initialFilters) {
+        setFilters(activeFilters);
+      }
       try {
-        const response = await getAllCampers({ page: 1, limit: perPage });
+        const response = await getAllCampers({
+          ...filters,
+          page: 1,
+          limit: perPage,
+        });
         setCampers(response.items ?? []);
+        setPage(1);
+        setHasMore((response.items?.length ?? 0) === perPage);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to load campers');
         setCampers([]);
@@ -54,7 +83,7 @@ export default function CatalogPage() {
     }
 
     fetchCampers();
-  }, []);
+  }, [filters]);
 
   useEffect(() => {
     let filtered = [...campers];
@@ -93,8 +122,29 @@ export default function CatalogPage() {
     setDisplayCount(perPage);
   }, [location, form, amenities.join(','), engine, transmission]);
 
-  const handleLoadMore = () => {
-    setDisplayCount((prev) => prev + perPage);
+  const handleLoadMore = async () => {
+    setLoading(true);
+
+    try {
+      const nextPage = page + 1;
+
+      const response = await getAllCampers({
+        ...filters,
+        page: nextPage,
+        limit: perPage,
+      });
+
+      appendCampers(response.items ?? []);
+      setPage(nextPage);
+
+      if ((response.items?.length ?? 0) < perPage) {
+        setHasMore(false);
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to load campers');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const displayedCampers = filteredCampers.slice(0, displayCount);
@@ -119,7 +169,7 @@ export default function CatalogPage() {
           <div>
             <CamperGrid campers={displayedCampers} />
 
-            {hasMore && (
+            {hasMore && !isLoading && (
               <div className={css.loadMore}>
                 <button
                   type="button"

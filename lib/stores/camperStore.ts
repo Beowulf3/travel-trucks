@@ -17,10 +17,16 @@ interface CampersState {
   error: string | null;
 
   filters: CamperFilters;
+  page: number;
+  hasMore: boolean;
 
   favorites: string[];
 
   setCampers: (campers: Camper[]) => void;
+  appendCampers: (campers: Camper[]) => void;
+  setPage: (page: number) => void;
+  setHasMore: (value: boolean) => void;
+
   setFilteredCampers: (campers: Camper[]) => void;
   setLoading: (loading: boolean) => void;
   setError: (error: string | null) => void;
@@ -34,7 +40,7 @@ interface CampersState {
   clearSearchResults: () => void;
 }
 
-const initialFilters: CamperFilters = {
+export const initialFilters: CamperFilters = {
   location: '',
   form: '',
   amenities: [],
@@ -50,9 +56,17 @@ export const useCampersStore = create<CampersState>()(
       isLoading: false,
       error: null,
       filters: initialFilters,
+      page: 1,
+      hasMore: true,
       favorites: [],
 
       setCampers: (campers) => set({ campers }),
+
+      appendCampers: (campers) => set({ campers }),
+
+      setPage: (page) => set({ page }),
+
+      setHasMore: (value) => set({ hasMore: value }),
 
       setFilteredCampers: (campers) => set({ filteredCampers: campers }),
 
@@ -85,6 +99,7 @@ export const useCampersStore = create<CampersState>()(
       name: 'campers-storage',
       partialize: (state) => ({
         favorites: state.favorites,
+        filters: state.filters,
       }),
     },
   ),
