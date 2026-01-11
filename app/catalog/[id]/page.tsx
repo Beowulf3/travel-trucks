@@ -1,7 +1,29 @@
-import React from 'react';
+import { getCamperById } from '@/lib/api';
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from '@tanstack/react-query';
+import CamperDetailsClient from './CamperDetails.client';
 
-const CamperDetails = () => {
-  return <div>Camper Details Page</div>;
+interface CamperDetailsProps {
+  params: Promise<{ id: string }>;
+}
+
+const CamperDetails = async ({ params }: CamperDetailsProps) => {
+  const { id } = await params;
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchQuery({
+    queryKey: ['camper', id],
+    queryFn: () => getCamperById(id),
+  });
+
+  return (
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <CamperDetailsClient />
+    </HydrationBoundary>
+  );
 };
 
 export default CamperDetails;

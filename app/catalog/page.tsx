@@ -7,14 +7,23 @@ import FilterBar from '@/components/FilterBar/FilterBar';
 import CamperGrid from '@/components/CamperGrid/CamperGrid';
 import { Camper } from '@/types/camper';
 import css from './Catalog.module.css';
+import { useCampersStore } from '@/lib/stores/camperStore';
 
 export default function CatalogPage() {
   const searchParams = useSearchParams();
-  const [allCampers, setAllCampers] = useState<Camper[]>([]);
-  const [displayedCampers, setDisplayedCampers] = useState<Camper[]>([]);
+  const {
+    campers,
+    filteredCampers,
+    isLoading,
+    error,
+    filters,
+    setCampers,
+    setFilteredCampers,
+    setLoading,
+    setError,
+    clearSearchResults,
+  } = useCampersStore();
   const [displayCount, setDisplayCount] = useState(4);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
 
   const location = searchParams.get('location') || '';
   const form = searchParams.get('form') || '';
@@ -27,18 +36,18 @@ export default function CatalogPage() {
 
   useEffect(() => {
     async function fetchCampers() {
-      setIsLoading(true);
+      clearSearchResults();
+      setLoading(true);
       setError(null);
 
       try {
         const response = await getAllCampers({ page: 1, limit: 100 });
-        setAllCampers(response.items ?? []);
+        setCampers(response.items ?? []);
       } catch (err) {
-        console.error('Fetch error:', err);
         setError(err instanceof Error ? err.message : 'Failed to load campers');
-        setAllCampers([]);
+        setCampers([]);
       } finally {
-        setIsLoading(false);
+        setLoading(false);
       }
     }
 
@@ -46,7 +55,7 @@ export default function CatalogPage() {
   }, []);
 
   useEffect(() => {
-    let filtered = [...allCampers];
+    let filtered = [...campers];
 
     if (location) {
       filtered = filtered.filter((c) =>
@@ -75,41 +84,19 @@ export default function CatalogPage() {
       );
     }
 
-    setDisplayedCampers(filtered.slice(0, displayCount));
-  }, [
-    allCampers,
-    location,
-    form,
-    amenities.join(','),
-    engine,
-    transmission,
-    displayCount,
-  ]);
+    setFilteredCampers(filtered);
+  }, [campers, location, form, amenities.join(','), engine, transmission]);
 
   useEffect(() => {
     setDisplayCount(perPage);
-  }, [location, form, amenities.join(',')]);
+  }, [location, form, amenities.join(','), engine, transmission]);
 
   const handleLoadMore = () => {
     setDisplayCount((prev) => prev + perPage);
   };
 
-  const hasMore =
-    displayedCampers.length <
-    allCampers.filter((c) => {
-      if (
-        location &&
-        !c.location.toLowerCase().includes(location.toLowerCase())
-      )
-        return false;
-      if (form && c.form !== form) return false;
-      if (
-        amenities.length > 0 &&
-        !amenities.every((a) => c[a as keyof Camper] === true)
-      )
-        return false;
-      return true;
-    }).length;
+  const displayedCampers = filteredCampers.slice(0, displayCount);
+  const hasMore = displayCount < filteredCampers.length;
 
   return (
     <div className={`container ${css.page}`}>

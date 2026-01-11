@@ -111,10 +111,15 @@
 
 .favoriteButton:hover {
     color: #e44848;
+    transform: scale(1.1)
 }
 
 .favoriteButton.active {
     color: #e44848;
+}
+
+.favoriteButton.active:hover {
+    transform: scale(1.15);
 }
 
 .description {

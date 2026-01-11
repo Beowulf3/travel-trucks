@@ -1,12 +1,14 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Icon } from '../Icon/Icon';
 import css from './FilterBar.module.css';
+import { useCampersStore } from '@/lib/stores/camperStore';
 
 export default function FilterBar() {
   const router = useRouter();
+  const { filters, setFilters, resetFilters } = useCampersStore();
   const searchParams = useSearchParams();
 
   const [location, setLocation] = useState(searchParams.get('location') || '');
@@ -18,6 +20,14 @@ export default function FilterBar() {
   const [transmission, setTransmission] = useState(
     searchParams.get('transmission') || '',
   );
+
+  useEffect(() => {
+    setLocation(filters.location);
+    setForm(filters.form);
+    setAmenities(filters.amenities);
+    setEngine(filters.engine);
+    setTransmission(filters.transmission);
+  }, [filters]);
 
   const forms = [
     { value: 'panelTruck', label: 'Van', icon: 'icon-panelTruck' },
@@ -63,6 +73,14 @@ export default function FilterBar() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
+    setFilters({
+      location,
+      form,
+      amenities,
+      engine,
+      transmission,
+    });
+
     const params = new URLSearchParams();
     if (location) params.set('location', location);
     if (form) params.set('form', form);
@@ -72,6 +90,23 @@ export default function FilterBar() {
 
     router.push(`/catalog?${params.toString()}`);
   };
+
+  const handleReset = () => {
+    setLocation('');
+    setForm('');
+    setAmenities([]);
+    setEngine('');
+    setTransmission('');
+    resetFilters();
+    router.push('/catalog');
+  };
+
+  const hasActiveFilters =
+    location !== '' ||
+    form !== '' ||
+    amenities.length > 0 ||
+    engine !== '' ||
+    transmission !== '';
 
   return (
     <form onSubmit={handleSubmit} className={css.form}>
@@ -196,9 +231,21 @@ export default function FilterBar() {
         </div>
       </div>
 
-      <button type="submit" className={css.searchButton}>
-        Search
-      </button>
+      <div className={css.actions}>
+        <button type="submit" className={css.searchButton}>
+          Search
+        </button>
+
+        {hasActiveFilters && (
+          <button
+            type="button"
+            onClick={handleReset}
+            className={css.resetButton}
+          >
+            Reset filters
+          </button>
+        )}
+      </div>
     </form>
   );
 }

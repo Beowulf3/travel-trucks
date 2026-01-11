@@ -1,0 +1,32 @@
+.title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #101828;
+    margin: 0 0 24px 0;
+    padding-bottom: 24px;
+    border-bottom: 1px solid rgba(16, 24, 40, 0.2);
+}
+
+.list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.item {
+    display: flex;
+    justify-content: space-between;
+    font-size: 16px;
+}
+
+.label {
+    color: #101828;
+    font-weight: 500;
+}
+
+.value {
+    color: #101828;
+}

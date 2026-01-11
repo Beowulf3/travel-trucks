@@ -4,7 +4,7 @@
 }
 
 .locationField {
-    margin-bottom: 40px;
+    margin-bottom: 20px;
 }
 
 .locationLabel {
@@ -40,22 +40,22 @@
     font-size: 16px;
     font-weight: 500;
     color: rgba(16, 24, 40, 0.6);
-    margin-bottom: 32px;
+    margin-bottom: 20px;
 }
 
 .section {
-    margin-bottom: 32px;
+    margin-bottom: 20px;
 }
 
 .section:last-of-type {
-    margin-bottom: 40px;
+    margin-bottom: 20px;
 }
 
 .sectionTitle {
     font-size: 20px;
     font-weight: 600;
     color: #101828;
-    margin-bottom: 48px;
+    margin-bottom: 20px;
     border-bottom: 1px solid rgba(16, 24, 40, 0.1);
 }
 
@@ -146,6 +146,13 @@
     text-align: center;
 }
 
+.actions {
+    display: flex;
+    flex-direction: raw;
+    gap: 10px;
+    margin-top: 64px;
+}
+
 .searchButton {
     width: 173px;
     padding: 16px 60px;
@@ -165,6 +172,28 @@
 
 .searchButton:active {
     background: #c02f2f;
+}
+
+.resetButton {
+    width: 173px;
+    padding: 16px;
+    background: transparent;
+    color: #101828;
+    border: 1px solid rgba(16, 24, 40, 0.2);
+    border-radius: 200px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.resetButton:hover {
+    border-color: #e44848;
+    color: #e44848;
+}
+
+.resetButton:active {
+    background: #fff4f4;
 }
 
 .equipmentButton input,

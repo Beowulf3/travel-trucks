@@ -1,25 +1,32 @@
 'use client';
 
-import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Camper } from '@/types/camper';
 import { Icon } from '../Icon/Icon';
 import { CamperFeatures } from '../CamperFeatures/CamperFeatures';
 import css from './CamperCard.module.css';
+import { useCampersStore } from '@/lib/stores/camperStore';
 
 interface CamperCardProps {
   camper: Camper;
 }
 
 export default function CamperCard({ camper }: CamperCardProps) {
-  const [isFavorite, setIsFavorite] = useState(false);
+  const { toggleFavorite, isFavorite } = useCampersStore();
+  const isLiked = isFavorite(camper.id);
+
+  const handleFavoriteClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    toggleFavorite(camper.id);
+  };
 
   return (
     <article className={css.card}>
       <div className={css.imageWrapper}>
         <Image
-          src={camper.gallery[0]?.thumb}
+          src={camper.gallery[0]?.thumb || '/placeholder.jpg'}
           alt={camper.name}
           fill
           className={css.image}
@@ -52,11 +59,17 @@ export default function CamperCard({ camper }: CamperCardProps) {
             <span className={css.price}>€{camper.price.toFixed(2)}</span>
             <button
               type="button"
-              className={`${css.favoriteButton} ${isFavorite ? css.active : ''}`}
-              onClick={() => setIsFavorite(!isFavorite)}
-              aria-label="Add to favorites"
+              className={`${css.favoriteButton} ${isLiked ? css.active : ''}`}
+              onClick={handleFavoriteClick}
+              aria-label={
+                isLiked ? 'Remove from favorites' : 'Add to favorites'
+              }
             >
-              <Icon name="icon-heart" width={26} height={24} />
+              <Icon
+                name={isLiked ? 'icon-heart-pressed' : 'icon-heart'}
+                width={26}
+                height={24}
+              />
             </button>
           </div>
         </div>
