@@ -1,14 +1,13 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
-import { useParams } from 'next/navigation';
+import { notFound, useParams } from 'next/navigation';
 
 import { getCamperById } from '@/lib/api';
 import css from './CamperDetails.module.css';
 import { Icon } from '@/components/Icon/Icon';
 import CamperGallery from '@/components/CamperGallery/CamperGallery';
 import CamperTabs from '@/components/CamperTabs/CamperTabs';
-import BookingForm from '@/components/BookingForm/BookingForm';
 
 const CamperDetailsClient = () => {
   const { id } = useParams<{ id: string }>();
@@ -19,7 +18,9 @@ const CamperDetailsClient = () => {
     refetchOnMount: false,
   });
 
-  if (!data) return 'Failed to load camper details.';
+  if (!data) {
+    notFound();
+  }
 
   return (
     data && (

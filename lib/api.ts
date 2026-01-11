@@ -1,7 +1,8 @@
 import { Camper } from '@/types/camper';
 import axios from 'axios';
 
-axios.defaults.baseURL = 'https://travel-trucks-backend-gv9o.onrender.com';
+const BASE_URL = 'https://travel-trucks-backend-gv9o.onrender.com';
+axios.defaults.baseURL = BASE_URL;
 export interface FetchCampersParams {
   page: number;
   limit: number;

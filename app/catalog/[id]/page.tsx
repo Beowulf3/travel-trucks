@@ -10,6 +10,8 @@ interface CamperDetailsProps {
   params: Promise<{ id: string }>;
 }
 
+export const dynamic = 'force-dynamic';
+
 const CamperDetails = async ({ params }: CamperDetailsProps) => {
   const { id } = await params;
   const queryClient = new QueryClient();

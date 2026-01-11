@@ -9,6 +9,8 @@ import { Camper } from '@/types/camper';
 import css from './Catalog.module.css';
 import { useCampersStore } from '@/lib/stores/camperStore';
 
+export const dynamic = 'force-dynamic';
+
 export default function CatalogPage() {
   const searchParams = useSearchParams();
   const {
@@ -41,7 +43,7 @@ export default function CatalogPage() {
       setError(null);
 
       try {
-        const response = await getAllCampers({ page: 1, limit: 100 });
+        const response = await getAllCampers({ page: 1, limit: perPage });
         setCampers(response.items ?? []);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to load campers');
