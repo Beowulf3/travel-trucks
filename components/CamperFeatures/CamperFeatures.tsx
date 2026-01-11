@@ -15,7 +15,11 @@ export const CamperFeatures = ({ camper }: CamperFeaturesProps) => {
       if (type === 'boolean' && !value) return null;
       if (type === 'value' && !value) return null;
 
-      return { key, label, icon, value };
+      return {
+        key,
+        label: type === 'value' ? String(value) : label,
+        icon,
+      };
     })
     .filter(Boolean);
 
@@ -26,7 +30,7 @@ export const CamperFeatures = ({ camper }: CamperFeaturesProps) => {
           feature && (
             <li key={feature.key} className={css.feature}>
               <Icon name={feature.icon} />
-              <span>{feature.label}</span>
+              <span className={css.featureLabel}>{feature.label}</span>
             </li>
           ),
       )}

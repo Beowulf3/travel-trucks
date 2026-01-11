@@ -14,21 +14,23 @@ export default function FilterBar() {
   const [amenities, setAmenities] = useState<string[]>(
     searchParams.get('amenities')?.split(',').filter(Boolean) || [],
   );
+  const [engine, setEngine] = useState(searchParams.get('engine') || '');
+  const [transmission, setTransmission] = useState(
+    searchParams.get('transmission') || '',
+  );
 
   const forms = [
-    { value: 'panelTruck', label: 'Van', icon: 'icon-van' },
+    { value: 'panelTruck', label: 'Van', icon: 'icon-panelTruck' },
     {
       value: 'fullyIntegrated',
       label: 'Fully Integrated',
-      icon: 'icon-fully-integrated',
+      icon: 'icon-fullyIntegrated',
     },
     { value: 'alcove', label: 'Alcove', icon: 'icon-alcove' },
   ];
 
   const availableAmenities = [
-    { value: 'transmission', label: 'Automatic', icon: 'icon-automatic' },
     { value: 'AC', label: 'AC', icon: 'icon-ac' },
-    { value: 'engine', label: 'Engine', icon: 'icon-engine' },
     { value: 'kitchen', label: 'Kitchen', icon: 'icon-kitchen' },
     { value: 'radio', label: 'Radio', icon: 'icon-radio' },
     { value: 'bathroom', label: 'Bathroom', icon: 'icon-bathroom' },
@@ -37,6 +39,17 @@ export default function FilterBar() {
     { value: 'gas', label: 'Gas', icon: 'icon-gas' },
     { value: 'water', label: 'Water', icon: 'icon-water' },
     { value: 'TV', label: 'TV', icon: 'icon-tv' },
+  ];
+
+  const engineOptions = [
+    { value: 'petrol', label: 'Petrol', icon: 'icon-engine' },
+    { value: 'diesel', label: 'Diesel', icon: 'icon-engine' },
+    { value: 'hybrid', label: 'hybrid', icon: 'icon-engine' },
+  ];
+
+  const geerBox = [
+    { value: 'automatic', label: 'Automatic', icon: 'icon-transmission' },
+    { value: 'manual', label: 'Manual', icon: 'icon-transmission' },
   ];
 
   const handleAmenityToggle = (amenity: string) => {
@@ -54,6 +67,8 @@ export default function FilterBar() {
     if (location) params.set('location', location);
     if (form) params.set('form', form);
     if (amenities.length > 0) params.set('amenities', amenities.join(','));
+    if (engine) params.set('engine', engine);
+    if (transmission) params.set('transmission', transmission);
 
     router.push(`/catalog?${params.toString()}`);
   };
@@ -90,6 +105,50 @@ export default function FilterBar() {
       </div>
 
       <p className={css.filtersTitle}>Filters</p>
+
+      <div className={css.section}>
+        <h3 className={css.sectionTitle}>Engine</h3>
+        <div className={css.equipmentGrid}>
+          {engineOptions.map((option) => (
+            <button
+              key={option.value}
+              type="button"
+              className={`${css.equipmentButton} ${
+                engine === option.value ? css.active : ''
+              }`}
+              onClick={() =>
+                setEngine(engine === option.value ? '' : option.value)
+              }
+            >
+              <Icon name={option.icon} width={32} height={32} />
+              <span className={css.equipmentLabel}>{option.label}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div className={css.section}>
+        <h3 className={css.sectionTitle}>Transmission</h3>
+        <div className={css.equipmentGrid}>
+          {geerBox.map((option) => (
+            <button
+              key={option.value}
+              type="button"
+              className={`${css.equipmentButton} ${
+                transmission === option.value ? css.active : ''
+              }`}
+              onClick={() =>
+                setTransmission(
+                  transmission === option.value ? '' : option.value,
+                )
+              }
+            >
+              <Icon name={option.icon} width={32} height={32} />
+              <span className={css.equipmentLabel}>{option.label}</span>
+            </button>
+          ))}
+        </div>
+      </div>
 
       <div className={css.section}>
         <h3 className={css.sectionTitle}>Vehicle equipment</h3>

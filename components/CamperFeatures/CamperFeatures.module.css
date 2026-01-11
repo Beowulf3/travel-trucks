@@ -18,3 +18,7 @@
     font-weight: 500;
     color: #101828;
 }
+
+.featureLabel {
+    text-transform: capitalize;
+}

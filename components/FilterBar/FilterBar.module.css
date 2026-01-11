@@ -1,0 +1,173 @@
+.form {
+    background: white;
+    padding: 0;
+}
+
+.locationField {
+    margin-bottom: 40px;
+}
+
+.locationLabel {
+    display: block;
+    font-size: 16px;
+    font-weight: 500;
+    color: rgba(16, 24, 40, 0.6);
+    margin-bottom: 8px;
+}
+
+.locationInput {
+    width: 100%;
+    padding: 18px 18px 18px 48px;
+    border: 1px solid rgba(16, 24, 40, 0.2);
+    border-radius: 12px;
+    font-size: 16px;
+    color: #101828;
+    background: #f7f7f7;
+    transition: border-color 0.2s, background-color 0.2s;
+}
+
+.locationInput::placeholder {
+    color: rgba(16, 24, 40, 0.6);
+}
+
+.locationInput:focus {
+    outline: none;
+    border-color: #e44848;
+    background: white;
+}
+
+.filtersTitle {
+    font-size: 16px;
+    font-weight: 500;
+    color: rgba(16, 24, 40, 0.6);
+    margin-bottom: 32px;
+}
+
+.section {
+    margin-bottom: 32px;
+}
+
+.section:last-of-type {
+    margin-bottom: 40px;
+}
+
+.sectionTitle {
+    font-size: 20px;
+    font-weight: 600;
+    color: #101828;
+    margin-bottom: 48px;
+    border-bottom: 1px solid rgba(16, 24, 40, 0.1);
+}
+
+.equipmentGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+}
+
+.equipmentButton {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 17px 16px;
+    border: 1px solid rgba(16, 24, 40, 0.2);
+    border-radius: 12px;
+    background: white;
+    cursor: pointer;
+    transition: all 0.2s;
+    min-height: 95px;
+}
+
+.equipmentButton:hover {
+    border-color: #e44848;
+}
+
+.equipmentButton.active {
+    border-color: #e44848;
+    background: #fff4f4;
+}
+
+.equipmentIcon {
+    width: 32px;
+    height: 32px;
+    color: #101828;
+}
+
+.equipmentLabel {
+    font-size: 16px;
+    font-weight: 500;
+    color: #101828;
+    text-align: center;
+    text-transform: capitalize;
+}
+
+.typeGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+.typeButton {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 17px 16px;
+    border: 1px solid rgba(16, 24, 40, 0.2);
+    border-radius: 12px;
+    background: white;
+    cursor: pointer;
+    transition: all 0.2s;
+    min-height: 95px;
+}
+
+.typeButton:hover {
+    border-color: #e44848;
+}
+
+.typeButton.active {
+    border-color: #e44848;
+    background: #fff4f4;
+}
+
+.typeIcon {
+    width: 32px;
+    height: 32px;
+    color: #101828;
+}
+
+.typeLabel {
+    font-size: 16px;
+    font-weight: 500;
+    color: #101828;
+    text-align: center;
+}
+
+.searchButton {
+    width: 173px;
+    padding: 16px 60px;
+    background: #e44848;
+    color: white;
+    border: none;
+    border-radius: 200px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.searchButton:hover {
+    background: #d13939;
+}
+
+.searchButton:active {
+    background: #c02f2f;
+}
+
+.equipmentButton input,
+.typeButton input {
+    display: none;
+}

@@ -8,13 +8,13 @@
     background: white;
 }
 
-
 .imageWrapper {
     position: relative;
     width: 292px;
     height: 320px;
     border-radius: 10px;
     overflow: hidden;
+    flex-shrink: 0;
 }
 
 .image {
@@ -27,16 +27,20 @@
     display: flex;
     flex-direction: column;
     gap: 24px;
+    min-width: 0;
 }
+
 
 .header {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
+    gap: 16px;
 }
 
 .titleSection {
     flex: 1;
+    min-width: 0;
 }
 
 .title {
@@ -44,6 +48,9 @@
     font-weight: 600;
     color: #101828;
     margin: 0 0 8px 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .meta {
@@ -62,10 +69,12 @@
 
 .star {
     color: #ffc531;
+    flex-shrink: 0;
 }
 
 .reviews {
     text-decoration: underline;
+    cursor: pointer;
 }
 
 .location {
@@ -78,12 +87,14 @@
     display: flex;
     align-items: center;
     gap: 8px;
+    flex-shrink: 0;
 }
 
 .price {
     font-size: 24px;
     font-weight: 600;
     color: #101828;
+    white-space: nowrap;
 }
 
 .favoriteButton {
@@ -93,6 +104,9 @@
     padding: 4px;
     color: #101828;
     transition: color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .favoriteButton:hover {
@@ -102,7 +116,6 @@
 .favoriteButton.active {
     color: #e44848;
 }
-
 
 .description {
     font-size: 16px;
@@ -136,7 +149,9 @@
 .featureIcon {
     width: 20px;
     height: 20px;
+    flex-shrink: 0;
 }
+
 
 .showMoreButton {
     padding: 16px 60px;
@@ -150,6 +165,9 @@
     transition: background-color 0.2s;
     align-self: flex-start;
     margin-top: auto;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
 }
 
 .showMoreButton:hover {

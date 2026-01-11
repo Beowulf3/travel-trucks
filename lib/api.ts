@@ -1,7 +1,7 @@
 import { Camper } from '@/types/camper';
 import axios from 'axios';
 
-axios.defaults.baseURL = 'https://66b1f8e71ca8ad33d4f5f63e.mockapi.io';
+axios.defaults.baseURL = 'https://travel-trucks-backend-gv9o.onrender.com';
 export interface FetchCampersParams {
   page: number;
   limit: number;

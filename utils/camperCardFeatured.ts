@@ -12,7 +12,7 @@ interface FeatureConfig<T extends keyof Camper = keyof Camper> {
 export const camperEquipment: FeatureConfig[] = [
   {
     key: 'transmission',
-    label: 'Transmission',
+    label: '',
     icon: 'icon-transmission',
     type: 'value',
   },
@@ -24,7 +24,7 @@ export const camperEquipment: FeatureConfig[] = [
   },
   {
     key: 'engine',
-    label: 'Engine',
+    label: '',
     icon: 'icon-engine',
     type: 'value',
   },
